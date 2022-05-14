@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button id="btnCmd">Command</button>
+    <br>    
+    <span id="msg"></span>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+
+    <script>
+        var message = document.querySelector('#msg');
+        
+
+        annyang.addCallback('resultMatch', function(userSaid, commandText, phrases) {
+            console.log(userSaid); // sample output: 'hello'
+            message.textContent = 'Voice Input: ' + userSaid + '.';
+            // console.log(commandText); // sample output: 'hello (there)'
+            // console.log(phrases); // sample output: ['hello', 'halo', 'yellow', 'polo', 'hello kitty']
+        });
+
+
+        if (annyang) {
+        
+          //set your commands here, as many as you need
+          var commands = {
+            
+            'hello': function() {
+                // alert("yo")
+                window.location = "test2.html";
+            },
+            'main': function() {
+                window.location = "https://www.google.com";
+            }
+          };
+        
+          document.querySelector('#btnCmd').addEventListener('click', function(){
+            annyang.start();
+        });
+
+        annyang.onerror = function(event){ //when any error raised, set a message
+            message.textContent = 'Error in recognition: ' + event.error;
+        };
+
+          // add commands
+          annyang.addCommands(commands);
+        
+        //   annyang.start();
+        
+        }
+        </script>
+
+</body>
+</html>

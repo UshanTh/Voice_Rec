@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello</h1>
+    
+    <button id="btnCmd">Command</button>
+    <br>
+    <span id="msg"></span>
+    <br>
+    <input type="checkbox" id="hello">Hello
+    <br>
+    <input type="checkbox" id="what">what
+    
+
+    <script>
+        var message = document.querySelector('#msg');
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; //recognize voice
+        // var SpeechGrammerList =  SpeechGrammarList || window.webkitSpeechGrammarList; //recognize grammer
+        var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+        // var speechRecognitionList = new SpeechGrammarList();
+
+        var grammer = '#JSGF V1.0'; //type of the grammer we use
+
+        var recognition = new SpeechRecognition();
+        // var speechRecoGrammerlist = new SpeechGrammerList();
+        // speechRecoGrammerlist.addFromString(grammer, 1); //provide grammer information
+
+        // recognition.grammers = speechRecoGrammerlist;
+        recognition.lang = 'en-US'; //Specify lang but not compulsory
+        recognition.interimResults = false;
+
+        recognition.onresult = function(event){//when recoginzer reconize correct commands
+            var last = event.results.length - 1;
+            var command = event.results[last][0].transcript;
+            message.textContent = 'Voice Input: ' + command + '.';
+p
+            var vcmd = command;
+
+            if (vcmd.toLowerCase() == 'hello'){
+                window.location = "test2.html";        
+            }
+            else if (vcmd.toLowerCase() == 'google'){
+                // document.querySelector('#what').checked = true;
+                window.location = 'https://www.google.com';    
+            }
+            else{
+                message.textContent = 'Voice Input Not Match: ' + vcmd + '.';
+            }
+        };
+
+        recognition.onspeechend = function(){ //when speech end, recogintion stop
+            recognition.stop();
+        };
+
+        recognition.onerror = function(event){ //when any error raised, set a message
+            message.textContent = 'Error in recognition: ' + event.error;
+        };
+
+        document.querySelector('#btnCmd').addEventListener('click', function(){
+            recognition.start();
+        });
+
+         
+    </script>
+</body>
+</html>
